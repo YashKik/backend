@@ -49,7 +49,7 @@ const userSchema = new Schema({
 userSchema.pre("save", async function (next) {
     if (! this.isModified("password")) return next(); // Check the password if it is not modified then go next 
 
-    this.password = bcrypt.hash(this.password, 10); // Otherwise encrypt the password just before saving a data
+    this.password = await bcrypt.hash(this.password, 10); // Otherwise encrypt the password just before saving a data
     next();
 })
 
@@ -58,7 +58,7 @@ userSchema.methods.isCorrectPassword = async function (password) {
 } // Check the password when user is sign-in
 
 userSchema.methods.generateAccessToken = function () {
-    jwt.sign({
+    return jwt.sign({
         _id: this._id,
         email: this.email,
         username: this.username,
@@ -72,7 +72,7 @@ userSchema.methods.generateAccessToken = function () {
 }
 
 userSchema.methods.generateRefreshToken = function () {
-    jwt.sign({
+    return jwt.sign({
         _id: this._id,
     },
     process.env.REFRESH_TOKEN_SECRET,
