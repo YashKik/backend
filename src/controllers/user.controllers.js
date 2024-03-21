@@ -1,8 +1,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
-import { User } from "../models/user.model.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
+import { User } from "../models/user.model.js";
 import  jwt  from "jsonwebtoken";
 import mongoose from "mongoose";
 
@@ -22,10 +21,6 @@ const generateAccessAndTokenRefreshToken = async(userId)=> {
         throw new ApiError(500,"Something went wrong while generating acceessToken or refreshToken")
     }
 }
-
-// const deleteOldImage = async(imageUrl)=> {
-
-// }
 
 const registerUser = asyncHandler( async (req, res)=>{
     // Get user detail from frontend
@@ -309,6 +304,8 @@ const updateUserAvatar = asyncHandler(async(req , res)=> {
 })
 
 const updateUserCoverImage = asyncHandler(async(req , res)=> {
+
+    const oldUrl = req.user.coverImage
     const coverImageLocalPath =  req.file?.path
 
     if(!coverImageLocalPath){
@@ -330,8 +327,6 @@ const updateUserCoverImage = asyncHandler(async(req , res)=> {
         },
         {new: true}
     ).select("-password")
-
-
 
     return res
     .status(200)
@@ -460,9 +455,8 @@ const getWatchHistory = asyncHandler(async( req , res ) =>{
     ))
 })
 
-
-
-export { registerUser,
+export {
+    registerUser,
     loginUser,
     logoutUser,
     refreshAccessToken,
@@ -472,4 +466,5 @@ export { registerUser,
     updateUserAvatar,
     updateUserCoverImage,
     getUserChannelProfile,
-    getWatchHistory };
+    getWatchHistory 
+};
