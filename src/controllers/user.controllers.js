@@ -4,6 +4,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { User } from "../models/user.model.js";
 import  jwt  from "jsonwebtoken";
 import mongoose from "mongoose";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const generateAccessAndTokenRefreshToken = async(userId)=> {
     try {
@@ -296,7 +297,7 @@ const updateUserAvatar = asyncHandler(async(req , res)=> {
         {new: true}
     ).select("-password")
 
-    user.coverImage
+    // user.coverImage
 
     return res
     .status(200)
@@ -327,6 +328,9 @@ const updateUserCoverImage = asyncHandler(async(req , res)=> {
         },
         {new: true}
     ).select("-password")
+
+    // console.log(oldUrl);
+    // const oldImage = await 
 
     return res
     .status(200)
