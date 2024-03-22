@@ -12,7 +12,10 @@ const getVideoComments = asyncHandler(async (req, res) => {
 })
 
 const addComment = asyncHandler(async (req, res) => {
-    // TODO: add a comment to a video
+    // add a comment to a video
+
+    
+
 })
 
 const updateComment = asyncHandler(async (req, res) => {
